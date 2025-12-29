@@ -1,1 +1,554 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reisplanning – Zuid-Afrika & Zanzibar</title>
+
+  <style>
+    :root{
+      --bg: #fbfaf7;
+      --panel: #ffffff;
+      --text: #141414;
+      --muted: #6f6f6f;
+      --line: rgba(20,20,20,.10);
+      --shadow: 0 18px 40px rgba(0,0,0,.06);
+      --radius: 18px;
+
+      --max: 1040px;
+      --pad: clamp(16px, 3.2vw, 28px);
+
+      --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    *{ box-sizing: border-box; }
+    html{ scroll-behavior: smooth; }
+    body{
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a{
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(20,20,20,.25);
+    }
+    a:hover{ border-bottom-color: rgba(20,20,20,.6); }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    /* Top bar */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(251,250,247,.78);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px var(--pad);
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .brand{
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      line-height: 1.1;
+    }
+    .brand .title{
+      font-family: var(--serif);
+      font-size: 16px;
+      letter-spacing: .2px;
+    }
+    .brand .subtitle{
+      font-size: 12px;
+      color: var(--muted);
+    }
+    nav{
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    nav a{
+      border-bottom: none;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      transition: .2s ease;
+    }
+    nav a:hover{
+      color: var(--text);
+      background: rgba(20,20,20,.05);
+    }
+
+    /* Hero */
+    .hero{
+      padding: clamp(36px, 6vw, 64px) 0 28px;
+    }
+    .hero-grid{
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: clamp(18px, 3vw, 28px);
+      align-items: end;
+    }
+    .kicker{
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1{
+      margin: 0 0 10px;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(34px, 4.6vw, 56px);
+      line-height: 1.05;
+      letter-spacing: .2px;
+    }
+    .lead{
+      margin: 0;
+      color: rgba(20,20,20,.78);
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 62ch;
+    }
+    .hero-meta{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.6);
+      padding: 18px;
+    }
+    .meta-row{
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .meta-row:first-child{ border-top: none; padding-top: 0; }
+    .meta-key{ color: var(--muted); }
+    .meta-val{ text-align: right; }
+
+    .hero-media{
+      margin-top: 22px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .hero-media img{
+      display: block;
+      width: 100%;
+      height: min(52vh, 520px);
+      object-fit: cover;
+    }
+
+    /* Section layout */
+    section{
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-head{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+    .section-head h2{
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: .2px;
+    }
+    .section-head p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      max-width: 60ch;
+      justify-self: end;
+      text-align: right;
+    }
+
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-body{
+      padding: 22px;
+    }
+
+    .split{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 860px){
+      .split{ grid-template-columns: 1fr 1fr; gap: 18px; }
+    }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      background: rgba(255,255,255,.65);
+    }
+
+    .list{
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .list li{
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      font-size: 14px;
+    }
+    .list li:first-child{ border-top: none; }
+    .list .left{ color: rgba(20,20,20,.9); }
+    .list .right{ color: var(--muted); text-align: right; }
+
+    .media{
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+    .media img, .media video{
+      display: block;
+      width: 100%;
+      height: 460px;
+      object-fit: cover;
+    }
+    @media (max-width: 720px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .section-head{ grid-template-columns: 1fr; }
+      .section-head p{ justify-self: start; text-align: left; }
+      .media img, .media video{ height: 320px; }
+    }
+
+    video{
+      background: #000;
+    }
+
+    /* Tiny hover polish */
+    .panel{
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .panel:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 22px 50px rgba(0,0,0,.07);
+    }
+
+    /* Footer */
+    footer{
+      padding: 42px 0 64px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .footer-grid{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+    @media (min-width: 860px){
+      .footer-grid{ grid-template-columns: 1fr 1fr; align-items: center; }
+      .footer-grid .right{ text-align: right; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="title">Zuid-Afrika & Zanzibar</div>
+        <div class="subtitle">Reisoverzicht · 4 jan – 27 jan</div>
+      </div>
+      <nav aria-label="Navigatie">
+        <a href="#vluchten">Vluchten</a>
+        <a href="#kaapstad">Kaapstad</a>
+        <a href="#safari">Safari</a>
+        <a href="#zanzibar">Zanzibar</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="kicker">City · Nature · Ocean</div>
+          <h1>Stad → safari → strand.</h1>
+          <p class="lead">
+            Eén rustige route, met ruimte om te genieten. Dit overzicht is bedoeld om in één oogopslag te zien
+            waar we verblijven, hoe we reizen en wat we daar willen doen.
+          </p>
+        </div>
+
+        <div class="hero-meta">
+          <div class="meta-row">
+            <div class="meta-key">Totaal</div>
+            <div class="meta-val">4 jan – 27 jan</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-key">Kaapstad</div>
+            <div class="meta-val">9 nachten · Sea Point</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-key">Safari</div>
+            <div class="meta-val">5 nachten · Krugerregio</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-key">Zanzibar</div>
+            <div class="meta-val">9 nachten · 2 hotels</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <!-- VERVANG DIT HERO-IMAGE -->
+        <img src="assets/images/hero.jpg" alt="Reisbeeld Zuid-Afrika en Zanzibar">
+      </div>
+    </header>
+
+    <!-- VLUCHTEN -->
+    <section id="vluchten">
+      <div class="section-head">
+        <h2>Vluchten</h2>
+        <p>Hoofdlijnen, zodat het ritme van de reis helder blijft.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-body split">
+          <div>
+            <span class="pill">Heenreis</span>
+            <ul class="list">
+              <li>
+                <span class="left">Zondag 4 jan · KLM · AMS → CPT</span>
+                <span class="right">09:30 → 21:55</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <span class="pill">Terugreis</span>
+            <ul class="list">
+              <li>
+                <span class="left">Dinsdag 27 jan · TUI · ZNZ → AMS</span>
+                <span class="right">08:50 → 19:20</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="media">
+          <!-- VERVANG FOTO VLUCHT -->
+          <img src="assets/images/flight.jpg" alt="Vlucht impression">
+        </div>
+      </div>
+    </section>
+
+    <!-- KAAPSTAD -->
+    <section id="kaapstad">
+      <div class="section-head">
+        <h2>Kaapstad</h2>
+        <p>Sea Point als uitvalsbasis. Strand, stad en korte dagtrips binnen bereik.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-body split">
+          <div>
+            <span class="pill">Verblijf</span>
+            <ul class="list">
+              <li>
+                <span class="left">4 – 13 jan</span>
+                <span class="right">9 nachten</span>
+              </li>
+              <li>
+                <span class="left">Wijk</span>
+                <span class="right">Sea Point</span>
+              </li>
+              <li>
+                <span class="left">Accommodatie</span>
+                <span class="right">Eighty2 on M</span>
+              </li>
+            </ul>
+
+            <p class="muted" style="margin:14px 0 0;">
+              Idee: rustig ritme, veel buiten, niet te strak plannen.
+            </p>
+          </div>
+
+          <div>
+            <span class="pill">Wat we willen doen</span>
+            <ul class="list">
+              <li><span class="left">Sea Point Promenade</span><span class="right">wandelen</span></li>
+              <li><span class="left">Mojo Market</span><span class="right">eten / sfeer</span></li>
+              <li><span class="left">Clifton & Camps Bay</span><span class="right">strand</span></li>
+              <li><span class="left">Signal Hill</span><span class="right">zonsondergang</span></li>
+              <li><span class="left">Stellenbosch</span><span class="right">wijnregio</span></li>
+              <li><span class="left">Chapman’s Peak Drive</span><span class="right">roadtrip</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="media">
+          <!-- VIDEO: The Lawns -->
+          <video controls playsinline preload="metadata" poster="assets/images/the-lawns-poster.jpg">
+            <source src="assets/videos/the-lawns.mp4" type="video/mp4">
+            Je browser ondersteunt deze video niet.
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAFARI -->
+    <section id="safari">
+      <div class="section-head">
+        <h2>Safari</h2>
+        <p>Rust, natuur en safari-ervaring. Een duidelijk ander tempo dan Kaapstad.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-body split">
+          <div>
+            <span class="pill">13 – 18 jan</span>
+            <ul class="list">
+              <li><span class="left">Regio</span><span class="right">Kruger / Hoedspruit</span></li>
+              <li><span class="left">Nachten</span><span class="right">5</span></li>
+              <li><span class="left">Accommodatie</span><span class="right">7 Star Lodges</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <span class="pill">Ritme</span>
+            <ul class="list">
+              <li><span class="left">Ochtendsafari</span><span class="right">vroeg</span></li>
+              <li><span class="left">Middagsafari</span><span class="right">later</span></li>
+              <li><span class="left">Vrije tijd</span><span class="right">lodge / pool</span></li>
+              <li><span class="left">Avond</span><span class="right">bush</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="media">
+          <!-- VERVANG SAFARI FOTO -->
+          <img src="assets/images/safari.jpg" alt="Safari impression">
+        </div>
+      </div>
+    </section>
+
+    <!-- ZANZIBAR -->
+    <section id="zanzibar">
+      <div class="section-head">
+        <h2>Zanzibar</h2>
+        <p>Strand en ontspanning. Twee hotels, eerst kleinschalig, daarna afsluiten met meer comfort.</p>
+      </div>
+
+      <!-- MALA -->
+      <div class="panel" style="margin-bottom:18px;">
+        <div class="panel-body split">
+          <div>
+            <span class="pill">18 – 23 jan</span>
+            <h3 style="margin:12px 0 6px; font-family: var(--serif); font-weight: 500;">Mala Boutique Hotel</h3>
+            <p class="muted" style="margin:0;">
+              Kleinschalig. Eigen bungalow. Gericht op rust na de safari.
+            </p>
+          </div>
+          <div>
+            <span class="pill">Focus</span>
+            <ul class="list">
+              <li><span class="left">Strand</span><span class="right">rust</span></li>
+              <li><span class="left">Zee</span><span class="right">zwemmen</span></li>
+              <li><span class="left">Tempo</span><span class="right">laag</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="media">
+          <video controls playsinline preload="metadata" poster="assets/images/mala-poster.jpg">
+            <source src="assets/videos/mala-hotel.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <!-- BE -->
+      <div class="panel">
+        <div class="panel-body split">
+          <div>
+            <span class="pill">23 – 27 jan</span>
+            <h3 style="margin:12px 0 6px; font-family: var(--serif); font-weight: 500;">BE Hotel Zanzibar</h3>
+            <p class="muted" style="margin:0;">
+              Comfortabeler. Fijn om de reis rustig af te ronden.
+            </p>
+          </div>
+          <div>
+            <span class="pill">Optioneel</span>
+            <ul class="list">
+              <li><span class="left">Snorkelen / boot</span><span class="right">als het uitkomt</span></li>
+              <li><span class="left">Stone Town</span><span class="right">cultuur</span></li>
+              <li><span class="left">Geen vaste planning</span><span class="right">bewust</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="media">
+          <video controls playsinline preload="metadata" poster="assets/images/be-poster.jpg">
+            <source src="assets/videos/be-hotel.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div style="font-family: var(--serif); color: var(--text);">Zuid-Afrika & Zanzibar</div>
+          <div class="muted">Stad → natuur → ontspanning</div>
+        </div>
+        <div class="right muted">
+          Tip: houd je bestandsnamen klein en zonder spaties (the-lawns.mp4).
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+</body>
+</html>
 
